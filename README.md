@@ -7,6 +7,7 @@ Visualize a graph in your docsify project using [Sigma.js](https://www.sigmajs.o
 
 ## Graphs supported
 In this version of the plugin, only the graphs in this JSON format are parsed:
+```
 {
   "nodes": [
     { "key": "page11", "label": "Le titre", "cluster": "0", "x": 643.8, "y": -770.3, "size": 28 }
@@ -21,7 +22,10 @@ In this version of the plugin, only the graphs in this JSON format are parsed:
     ...
   ]
 }
+```
 
 ## How to use
 Put this line in your md file:
+```
 <div class="docsify-sigma" graph-data-url="path/to/graph.json"></div>
+```
