@@ -48,7 +48,6 @@
           loadGraphologyPromise,
           loadGraphPromise,
         ]).then(([resSigma, resGraphology, resFetchGraph]) => {
-          html.replace("sigma", "toto");
           html = html.replace(/<div[^class]+class="docsify-sigma"[^>]+>/g, "$&" + JSON.stringify(resFetchGraph));
           next(html);
         })
@@ -97,5 +96,5 @@
 
   // Add plugin to docsify's plugin array
   window.$docsify = window.$docsify || {};
-  $docsify.plugins = [docsifySigma, ($docsify.plugins || [])];
+  window.$docsify.plugins = [].concat(docsifySigma, $docsify.plugins);
 }
