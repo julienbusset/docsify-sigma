@@ -25,9 +25,10 @@
     // Invoked on each page load after new markdown has been transformed to HTML.
     // Supports asynchronous tasks (see afterEach documentation for details).
     hook.afterEach((html, next) => {
-      const graphsCount = (html.match(/class="docsify-sigma"/g) || []).length;
+      const graphs = html.match(/<div[^class]*class=["'][^"']*docsify-sigma[^"']*["'][^>]*>/g);
 
-      if (graphsCount > 0) {
+      if ((graphs || []).length > 0) {
+        // Ajout et chargement des scripts pour Sigma et graphology   
         let loadSigmaPromise = new Promise (resolve => {
           docsidom.on(docsidom.appendTo(docsidom.head, scriptSigmaImport), 'load', resolve);
         });
@@ -43,14 +44,17 @@
             loadGraphologyPromise = Promise.resolve();
         }
 
-        const loadGraphPromise = window.Docsify.get('graphe.json');
+        // Récupération du graphe
+        let pathToGraph = graphs[0].match(/graph-data-url=["'][^"']*["']/g)[0].split(/["']/)[1];
+        pathToGraph = (pathToGraph == (null || "")) ? 'graph.json' : pathToGraph;
+        const loadGraphPromise = window.Docsify.get(pathToGraph);
  
         Promise.all([
           loadSigmaPromise,
           loadGraphologyPromise,
           loadGraphPromise,
         ]).then(([resSigma, resGraphology, resFetchGraph]) => {
-          html = html.replace(/<div[^class]+class="docsify-sigma"[^>]+>/g, "$&" + resFetchGraph);
+          html = html.replace(/<div[^class]*class=["'][^"']*docsify-sigma[^"']*["'][^>]*>/g, "$&" + resFetchGraph);
           next(html);
         });
       } else {
