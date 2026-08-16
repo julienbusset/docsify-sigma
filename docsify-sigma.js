@@ -1,16 +1,21 @@
 {
+  const docsidom = window.Docsify.dom;
+  
   function docsifySigma(hook, vm) {
-    const scriptSigmaImport = document.createElement("script");
+    const scriptSigmaImport = docsidom.create("script");
     scriptSigmaImport.src = "https://cdnjs.cloudflare.com/ajax/libs/sigma.js/3.0.3/sigma.min.js";
+//    scriptSigmaImport.src = "https://cdnjs.cloudflare.com/ajax/libs/sigma.js/4.0.0-beta.2/sigma.min.js";
     scriptSigmaImport.id = "sigma-import-script";
-    const scriptGraphologyImport = document.createElement("script");
+
+    const scriptGraphologyImport = docsidom.create("script");
     scriptGraphologyImport.src = "https://cdn.jsdelivr.net/npm/graphology@0.26.0/dist/graphology.umd.min.js";
     scriptGraphologyImport.id = "graphology-import-script"
+
     
     // Invoked on each page load before new markdown is transformed to HTML.
     // Supports asynchronous tasks (see beforeEach documentation for details).
     hook.beforeEach(markdown => {
-      const sigmaContainers = document.getElementsByClassName("docsify-sigma");
+      const sigmaContainers = docsidom.findAll(".docsify-sigma");
       if (sigmaContainers[0] !== undefined) {
           sigmaContainers[0].remove();
       }
@@ -23,49 +28,49 @@
       const graphsCount = (html.match(/class="docsify-sigma"/g) || []).length;
 
       if (graphsCount > 0) {
-        const loadSigmaPromise = new Promise (resolve => {
-          document.head.appendChild(scriptSigmaImport).addEventListener('load', resolve, { once: true });
+        let loadSigmaPromise = new Promise (resolve => {
+          docsidom.on(docsidom.appendTo(docsidom.head, scriptSigmaImport), 'load', resolve);
         });
-        const loadGraphologyPromise = new Promise (resolve => {
-          document.head.appendChild(scriptGraphologyImport).addEventListener('load', resolve, { once: true });
-        });
-        const loadGraphPromise = fetch('graphe.json').then(response => response.json());
         
-        try {
-          fetchData(loadSigmaPromise, loadGraphologyPromise, loadGraphPromise);
-        } catch (e) {
-          console.error("Erreur : ", e);
-        } finally {
-          next(html);
+        let loadGraphologyPromise = new Promise (resolve => {
+          docsidom.on(docsidom.appendTo(docsidom.head, scriptGraphologyImport), 'load', resolve);
+        });
+        // Si les deux ont déjà été chargés, il faut résoudre manuellement les promesses
+        if (typeof window.Sigma !== 'undefined') {
+            loadSigmaPromise = Promise.resolve();
         }
-      } else {
-        next(html);
-      }
-        
-      async function fetchData(loadSigmaPromise, loadGraphologyPromise, loadGraphPromise) {
-        const [loadSigma, loadGraphology, loadGraph] = await Promise.all([
+        if (typeof window.graphology !== 'undefined') {
+            loadGraphologyPromise = Promise.resolve();
+        }
+
+        const loadGraphPromise = window.Docsify.get('graphe.json');
+ 
+        Promise.all([
           loadSigmaPromise,
           loadGraphologyPromise,
           loadGraphPromise,
         ]).then(([resSigma, resGraphology, resFetchGraph]) => {
-          html = html.replace(/<div[^class]+class="docsify-sigma"[^>]+>/g, "$&" + JSON.stringify(resFetchGraph));
+          html = html.replace(/<div[^class]+class="docsify-sigma"[^>]+>/g, "$&" + resFetchGraph);
           next(html);
-        })
-      };
+        });
+      } else {
+        next(html);
+      }
     });
 
     // Invoked on each page load after new HTML has been appended to the DOM
     hook.doneEach(() => {
-      const sigmaContainers = document.getElementsByClassName("docsify-sigma");
+      const sigmaContainers = docsidom.findAll(".docsify-sigma");
       if (sigmaContainers[0] !== undefined) {
           const sigmaContainer = sigmaContainers[0];
           sigmaContainer.style.visibility = "hidden";
 
-          const dataset = JSON.parse(sigmaContainer.innerHTML);
-          sigmaContainer.innerHTML = "";
+          const string = sigmaContainer.innerHTML;
+          const dataset = JSON.parse(sigmaContainer.textContent);
+          docsidom.setHTML(sigmaContainer, "");
           sigmaContainer.style.visibility = "";
-          sigmaContainer.style.width = "800px";
-          sigmaContainer.style.height = "800px";
+          sigmaContainer.style.width = "100%";
+          sigmaContainer.style.height = "50vh";
 
           const clustersByKey = Object.fromEntries(dataset.clusters.map((c) => [c.key, c]));
 
@@ -87,9 +92,12 @@
               graph.addEdge(source, target);
             }
           }
-           
+
           // Afficher le graphe avec Sigma.js
-          const sigmaInstance = new Sigma(graph, sigmaContainer);
+          const sigmaInstance = new Sigma(graph, sigmaContainer, {
+            autoRescale: true,
+            labelColor: { attribute: "color" },
+          });
       }
     });
   }

@@ -6,7 +6,7 @@ Visualize a graph in your docsify project using [Sigma.js](https://www.sigmajs.o
 - Graphology: 0.26.0
 
 ## Graphs supported
-In this version of the plugin, only the graphs in this JSON format are parsed:
+In this version of the plugin, only the graphs with this JSON structure are parsed:
 ```
 {
   "nodes": [
@@ -18,7 +18,7 @@ In this version of the plugin, only the graphs in this JSON format are parsed:
     ...
   ],
   "clusters": [
-    { "key": "0", "color": "#6c3e81", "clusterLabel": "Le phénomène" }
+    { "key": "0", "color": "#6c3e81", "clusterLabel": "my favorite cluster" }
     ...
   ]
 }
