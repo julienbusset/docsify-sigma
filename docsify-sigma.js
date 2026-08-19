@@ -3,8 +3,7 @@
   
   function docsifySigma(hook, vm) {
     const scriptSigmaImport = docsidom.create("script");
-    scriptSigmaImport.src = "https://cdnjs.cloudflare.com/ajax/libs/sigma.js/3.0.3/sigma.min.js";
-//    scriptSigmaImport.src = "https://cdnjs.cloudflare.com/ajax/libs/sigma.js/4.0.0-beta.2/sigma.min.js";
+    scriptSigmaImport.src = "https://cdnjs.cloudflare.com/ajax/libs/sigma.js/4.0.0-beta.4/sigma.min.js";
     scriptSigmaImport.id = "sigma-import-script";
 
     const scriptGraphologyImport = docsidom.create("script");
@@ -87,7 +86,7 @@
               x: node.x,
               y: node.y,
               color: cluster?.color ?? "#999",
-              size: node.size,
+              size: 3 * node.size,
             });
           }
 
@@ -100,7 +99,14 @@
           // Afficher le graphe avec Sigma.js
           const sigmaInstance = new Sigma(graph, sigmaContainer, {
             autoRescale: true,
-            labelColor: { attribute: "color" },
+            styles: {
+              nodes: [
+                Sigma.DEFAULT_STYLES.nodes,
+                { 
+                  labelColor: { attribute : "color" }
+                },
+              ],
+            }
           });
       }
     });
