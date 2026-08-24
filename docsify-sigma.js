@@ -15,8 +15,10 @@
     // Supports asynchronous tasks (see beforeEach documentation for details).
     hook.beforeEach(markdown => {
       const sigmaContainers = docsidom.findAll(".docsify-sigma");
-      if (sigmaContainers[0] !== undefined) {
-          sigmaContainers[0].remove();
+      let i = 0;
+      while (sigmaContainers[i] !== undefined) {
+          sigmaContainers[i].remove();
+          i++;
       }
       return markdown;
     });
@@ -27,6 +29,9 @@
       const graphs = html.match(/<div[^class]*class=["'][^"']*docsify-sigma[^"']*["'][^>]*>/g);
 
       if ((graphs || []).length > 0) {
+        // Création de la liste des promises
+        const promisesList = [];
+      
         // Ajout et chargement des scripts pour Sigma et graphology   
         let loadSigmaPromise = new Promise (resolve => {
           docsidom.on(docsidom.appendTo(docsidom.head, scriptSigmaImport), 'load', resolve);
@@ -35,6 +40,7 @@
         let loadGraphologyPromise = new Promise (resolve => {
           docsidom.on(docsidom.appendTo(docsidom.head, scriptGraphologyImport), 'load', resolve);
         });
+        
         // Si les deux ont déjà été chargés, il faut résoudre manuellement les promesses
         if (typeof window.Sigma !== 'undefined') {
             loadSigmaPromise = Promise.resolve();
@@ -43,17 +49,25 @@
             loadGraphologyPromise = Promise.resolve();
         }
 
-        // Récupération du graphe
-        let pathToGraph = graphs[0].match(/graph-data-url=["'][^"']*["']/g)[0].split(/["']/)[1];
-        pathToGraph = (pathToGraph == (null || "")) ? 'graph.json' : pathToGraph;
-        const loadGraphPromise = window.Docsify.get(pathToGraph);
- 
-        Promise.all([
-          loadSigmaPromise,
-          loadGraphologyPromise,
-          loadGraphPromise,
-        ]).then(([resSigma, resGraphology, resFetchGraph]) => {
-          html = html.replace(/<div[^class]*class=["'][^"']*docsify-sigma[^"']*["'][^>]*>/g, "$&" + resFetchGraph);
+        promisesList.push(loadSigmaPromise);
+        promisesList.push(loadGraphologyPromise);
+
+        // Récupération des graphes
+        let i = 0;
+        while (graphs[i] !== undefined) {
+            let pathToGraph = graphs[i].match(/graph-data-url=["'][^"']*["']/g)[0].split(/["']/)[1];
+            pathToGraph = (pathToGraph == (null || "")) ? 'graph.json' : pathToGraph;
+            promisesList.push(window.Docsify.get(pathToGraph));
+            i++;
+        }
+       
+        Promise.all(promisesList).then((resList) => {
+          for (let j = 1; j < resList.length; j++) {
+              html = html.replace(/<div[^class]*class=["'][^"']*docsify-sigma[^"']*["'][^>]*>/g, function (match) {
+                j++;
+                return match + resList[j];
+              });
+          }
           next(html);
         });
       } else {
@@ -64,8 +78,10 @@
     // Invoked on each page load after new HTML has been appended to the DOM
     hook.doneEach(() => {
       const sigmaContainers = docsidom.findAll(".docsify-sigma");
-      if (sigmaContainers[0] !== undefined) {
-          const sigmaContainer = sigmaContainers[0];
+      let i = 0;
+      while (sigmaContainers[i] !== undefined) {
+          console.log(sigmaContainers[i].innerHTML);
+          const sigmaContainer = sigmaContainers[i];
           sigmaContainer.style.visibility = "hidden";
 
           const string = sigmaContainer.innerHTML;
@@ -108,6 +124,7 @@
               ],
             }
           });
+          i++;
       }
     });
   }
