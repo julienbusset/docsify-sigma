@@ -32,3 +32,5 @@ Put this line in your md file:
 <div class="docsify-sigma" graph-data-url="path/to/graph.json"></div>
 ```
 If no 'graph-data-url' attribute is specified, then it's default value is 'graph.json'. It means that if you don't tell where the file is, then it will assumes that it's in the same directory and named 'graph.json'.
+
+You can put several graphs: just put one line for each graph.
