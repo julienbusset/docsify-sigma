@@ -3,7 +3,7 @@
   
   function docsifySigma(hook, vm) {
     const scriptSigmaImport = docsidom.create("script");
-    scriptSigmaImport.src = "https://cdnjs.cloudflare.com/ajax/libs/sigma.js/4.0.0-beta.4/sigma.min.js";
+    scriptSigmaImport.src = "https://cdnjs.cloudflare.com/ajax/libs/sigma.js/4.0.0-beta.5/sigma.min.js";
     scriptSigmaImport.id = "sigma-import-script";
 
     const scriptGraphologyImport = docsidom.create("script");

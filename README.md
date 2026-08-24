@@ -2,7 +2,7 @@
 Visualize a graph in your docsify project using [Sigma.js](https://www.sigmajs.org/) and [Graphology](https://graphology.github.io/).
 
 ## Current versions of dependencies
-- Sigma.js: 4.0.0-beta.4
+- Sigma.js: 4.0.0-beta.5
 - Graphology: 0.26.0
 
 Note: Sigma.js v4 is chosen rather than v3.0.3 because it's far better documented.
