@@ -80,7 +80,6 @@
       const sigmaContainers = docsidom.findAll(".docsify-sigma");
       let i = 0;
       while (sigmaContainers[i] !== undefined) {
-          console.log(sigmaContainers[i].innerHTML);
           const sigmaContainer = sigmaContainers[i];
           sigmaContainer.style.visibility = "hidden";
 
@@ -102,7 +101,7 @@
               x: node.x,
               y: node.y,
               color: cluster?.color ?? "#999",
-              size: 3 * node.size,
+              size: 3 * node.score,
             });
           }
 

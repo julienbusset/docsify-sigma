@@ -12,7 +12,7 @@ In this version of the plugin, only the graphs with this JSON structure are pars
 ```
 {
   "nodes": [
-    { "key": "page11", "label": "Le titre", "cluster": "0", "x": 643.8, "y": -770.3, "size": 28 }
+    { "key": "page11", "label": "Le titre", "cluster": "0", "x": 643.8, "y": -770.3, "score": 28 }
     ...
   ],
   "edges": [
