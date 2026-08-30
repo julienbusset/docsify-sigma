@@ -55,8 +55,8 @@
         // Récupération des graphes
         let i = 0;
         while (graphs[i] !== undefined) {
-            let pathToGraph = graphs[i].match(/graph-data-url=["'][^"']*["']/g)[0].split(/["']/)[1];
-            pathToGraph = (pathToGraph == (null || "")) ? 'graph.json' : pathToGraph;
+            let pathToGraph = graphs[i].match(/graph-data-url=["'][^"']*["']/g) !== null ? graphs[i].match(/graph-data-url=["'][^"']*["']/g)[0].split(/["']/)[1] : 'graph.json';
+            console.log(graphs[i].match(/graph-data-url=["'][^"']*["']/g));
             promisesList.push(window.Docsify.get(pathToGraph));
             i++;
         }
