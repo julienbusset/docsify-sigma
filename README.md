@@ -9,7 +9,7 @@ Note: Sigma.js v4 is chosen rather than v3.0.3 because it's far better documente
 
 ## Graphs supported
 In this version of the plugin, only the graphs with this JSON structure are parsed:
-```
+```json
 {
   "nodes": [
     { "key": "page11", "label": "Le titre", "cluster": "0", "x": 643.8, "y": -770.3, "score": 28 }
@@ -30,7 +30,7 @@ In this version of the plugin, only the graphs with this JSON structure are pars
 
 ### Quick start
 Put this line in your md file:
-```
+```html
 <div class="docsify-sigma" graph-data-url="path/to/graph.json"></div>
 ```
 where `path/to/graph.json` is the path to your graph file.
@@ -45,7 +45,7 @@ You can add attributes to customize the graph. If omitted or incorrect, the defa
 Don't forget the quotes for values with letters or symbols. For numeric only values, don't use quotes.
 
 To use the attribute `attribute-name` with the value `"value"`, do this:
-```
+```html
 <div class="docsify-sigma" graph-data-url="path/to/graph.json" attribute-name="value"></div>
 ```
 
@@ -60,7 +60,7 @@ To use the attribute `attribute-name` with the value `"value"`, do this:
 | edges-color | Color of edges | `"#xxx"` or `"#xxxxxx"` with xxx or xxxxxx the HTML color code on 3 or 6 hexadecimal digits | `"#ccc"` | `edges-color="#111"`<br>`edges-color="#F08080"` | n/a |
 
 **Exemple**
-```
+```html
 <div class="docsify-sigma" graph-data-url="path/to/graph.json" edges-size=10 container-height="70vh"></div>
 ```
 
