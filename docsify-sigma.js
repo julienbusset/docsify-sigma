@@ -78,17 +78,26 @@
     // Invoked on each page load after new HTML has been appended to the DOM
     hook.doneEach(() => {
       const sigmaContainers = docsidom.findAll(".docsify-sigma");
-      let i = 0;
+      
+      let i = 0;      
       while (sigmaContainers[i] !== undefined) {
           const sigmaContainer = sigmaContainers[i];
           sigmaContainer.style.visibility = "hidden";
-
-          const string = sigmaContainer.innerHTML;
+          
+          // Récupération des attributs déclarés
+          const minNodeSize = /^\d+$/.test(sigmaContainer.getAttribute("min-node-size")) ? Number.parseInt(sigmaContainer.getAttribute("min-node-size")) : 10;
+          const maxNodeSize = /^\d+$/.test(sigmaContainer.getAttribute("max-node-size")) ? Number.parseInt(sigmaContainer.getAttribute("max-node-size")) : 50;
+          const containerWidth = /^((\d+px)|((\d{1,2}|100)%))$/.test(sigmaContainer.getAttribute("container-width")) ? sigmaContainer.getAttribute("container-width") : "100%";
+          const containerHeight = /^((\d+px)|((\d{1,2}|100)vh))$/.test(sigmaContainer.getAttribute("container-height")) ? sigmaContainer.getAttribute("container-height") : "50vh";
+          const edgesColor = /^#([[:xdigit:]]{3}){1,2}$/.test(sigmaContainer.getAttribute("edges-color")) ? sigmaContainer.getAttribute("edges-color") : "#ccc";
+          const edgesSize = /^\d+$/.test(sigmaContainer.getAttribute("edges-size")) ? Number.parseInt(sigmaContainer.getAttribute("edges-size")) : 5;
+          
+          
           const dataset = JSON.parse(sigmaContainer.textContent);
           docsidom.setHTML(sigmaContainer, "");
           sigmaContainer.style.visibility = "";
-          sigmaContainer.style.width = "100%";
-          sigmaContainer.style.height = "50vh";
+          sigmaContainer.style.width = containerWidth;
+          sigmaContainer.style.height = containerHeight;
 
           const clustersByKey = Object.fromEntries(dataset.clusters.map((c) => [c.key, c]));
 
@@ -100,8 +109,8 @@
               label: node.label,
               x: node.x,
               y: node.y,
-              color: cluster?.color ?? "#999",
-              size: 3 * node.score,
+              score: node.score,
+              cluster: node.cluster,
             });
           }
 
@@ -110,6 +119,18 @@
               graph.addEdge(source, target);
             }
           }
+          
+          // Extract cluster colors from data:
+          const clusterColors = Object.fromEntries(dataset.clusters.map((c) => [c.key, c.color]));
+
+          // Extract extreme score values from graph:
+          const { minScore, maxScore } = dataset.nodes.reduce(
+            ({ minScore, maxScore }, { score }) => ({
+              minScore: Math.min(minScore, score),
+              maxScore: Math.max(maxScore, score),
+            }),
+            { minScore: Infinity, maxScore: -Infinity },
+          );
 
           // Afficher le graphe avec Sigma.js
           const sigmaInstance = new Sigma(graph, sigmaContainer, {
@@ -118,9 +139,13 @@
               nodes: [
                 Sigma.DEFAULT_STYLES.nodes,
                 { 
-                  labelColor: { attribute : "color" }
+                  color: { attribute: "cluster", dict: clusterColors, defaultValue: "#999" },
+                  size: { attribute: "score", min: minNodeSize, max: maxNodeSize, minValue: minScore, maxValue: maxScore },
+                  label: { attribute: "label" },
+                  labelColor: { attribute : "color" },
                 },
               ],
+              edges: [Sigma.DEFAULT_STYLES.edges, { color: edgesColor, size: edgesSize }],
             }
           });
           i++;
