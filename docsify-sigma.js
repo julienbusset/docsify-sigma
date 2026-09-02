@@ -88,7 +88,7 @@
           const maxNodeSize = /^\d+$/.test(sigmaContainer.getAttribute("max-node-size")) ? Number.parseInt(sigmaContainer.getAttribute("max-node-size")) : 50;
           const containerWidth = /^((\d+px)|((\d{1,2}|100)%))$/.test(sigmaContainer.getAttribute("container-width")) ? sigmaContainer.getAttribute("container-width") : "100%";
           const containerHeight = /^((\d+px)|((\d{1,2}|100)vh))$/.test(sigmaContainer.getAttribute("container-height")) ? sigmaContainer.getAttribute("container-height") : "50vh";
-          const edgesColor = /^#([[:xdigit:]]{3}){1,2}$/.test(sigmaContainer.getAttribute("edges-color")) ? sigmaContainer.getAttribute("edges-color") : "#ccc";
+          const edgesColor = /^#([a-fA-F0-9]{3}){1,2}$/.test(sigmaContainer.getAttribute("edges-color")) ? sigmaContainer.getAttribute("edges-color") : "#ccc";
           const edgesSize = /^\d+$/.test(sigmaContainer.getAttribute("edges-size")) ? Number.parseInt(sigmaContainer.getAttribute("edges-size")) : 5;
           
           
