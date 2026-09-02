@@ -1,0 +1,50 @@
+{
+    "nodes": [
+        {
+            "key": "noeud1",
+            "label": "Premier nœud",
+            "cluster": "0",
+            "score": 10,
+            "x": 0,
+            "y": 0
+        },
+        {
+            "key": "noeud2",
+            "label": "Deuxième nœud",
+            "cluster": "1",
+            "score": 20,
+            "x": 50,
+            "y": 50
+        },
+        {
+            "key": "noeud3",
+            "label": "Troisième nœud",
+            "cluster": "1",
+            "score": 20,
+            "x": 100,
+            "y": 100
+        }
+    ],
+    "edges": [
+        [
+            "noeud1",
+            "noeud2"
+        ],
+        [
+            "noeud1",
+            "noeud3"
+        ]
+    ],
+    "clusters": [
+        {
+            "key": "0",
+            "color": "#6462b1",
+            "clusterLabel": "cluster0"
+        },
+        {
+            "key": "1",
+            "color": "#f898ec",
+            "clusterLabel": "cluster1"
+        }
+    ]
+}

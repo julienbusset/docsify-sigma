@@ -1,0 +1,55 @@
+<!-- index.html -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, shrink-to-fit=no, viewport-fit=cover">
+    <meta name="description" content="Tests for Docsify-Sigma.">
+
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@5/dist/themes/core.min.css">
+    <link rel="stylesheet" title="light" href="//cdn.jsdelivr.net/npm/docsify@5/dist/themes/addons/vue.min.css" />
+
+    <!-- Borders on graphs to ease validation -->
+    <style>
+        .docsify-sigma {
+            border: 1px solid #333 !important;
+        }
+        .test-image {
+            border: 1px solid #333 !important;
+        }
+    </style>
+  </head>
+  <body class="loading sidebar-chevron-left sidebar-group-box sidebar-toggle-chevron">
+    <div id="app"></div>
+    
+    <!-- Configuration -->
+    <script>
+      window.$docsify = {
+        executeScript: true,// needed to execute scripts that check attributes to test
+        loadSidebar: true,
+        requestHeaders: {
+            'cache-control': 'no-cache',
+          },
+        search: {
+          paths: 'auto',
+        },
+        auto2top: true,
+        skipLink: 'Aller directement au contenu',
+        docsifySigma: true,
+      };
+      window.$docsify.customPageTitle = {
+        prefix:     'Tests for Docsify-Sigma',
+        separator:   '-',
+      }
+    </script>
+        
+    <script src="//cdn.jsdelivr.net/npm/docsify@5/dist/docsify.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/docsify-footnote/dist/docsify-footnote.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/docsify@5/dist/plugins/zoom-image.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/docsify@5/dist/plugins/search.min.js"></script>
+    <script src="../docsify-sigma.js"></script>
+    <script src="//cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?version=4.8.0&features=String.prototype.normalize"></script>
+  </body>
+</html>

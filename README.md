@@ -64,3 +64,13 @@ To use the attribute `attribute-name` with the value `"value"`, do this:
 <div class="docsify-sigma" graph-data-url="path/to/graph.json" edges-size=10 container-height="70vh"></div>
 ```
 
+## Contribute
+Please contribute to the development of this plugin :)
+
+To run the regression tests:
+1. Clone the repo localy.
+2. Run a http server at the root of the cloned repo. For exemple, run `python3 -m http.server` in the cloned repo.
+3. Access the served files in your browser at the `/tests/` URI. For exemple, visit `http://localhost:8000/tests/` if you runned the command in exemple at step 2.
+4. Follow the instructions that have just appeared on your screen.
+5. Adjust the tests if needed, and include these adjustments in your pull request.
+6. Paste the results of the tests in your pull request.
