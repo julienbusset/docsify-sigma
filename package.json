@@ -1,0 +1,26 @@
+{
+  "name": "docsify-sigma",
+  "version": "1.0.0",
+  "description": "A Docsify plugin to render Sigma.js graphs.",
+  "main": "docsify-sigma.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/julienbusset/docsify-sigma.git"
+  },
+  "keywords": [
+    "docsify",
+    "docsify-plugin"
+  ],
+  "author": "Julien Busset",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/julienbusset/docsify-sigma/issues"
+  },
+  "homepage": "https://github.com/julienbusset/docsify-sigma#readme"
+}
