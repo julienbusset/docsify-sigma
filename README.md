@@ -30,8 +30,14 @@ In this version of the plugin, only the graphs with this JSON structure are pars
 
 ### Quick start
 Install the plugin in your Docsify project by following the instructions in the [Docsify documentation](https://docsify.js.org/#/quickstart). You have two possibilities:
-1. Copy docsify-sigma.js in the plugin folder, for example: `<script src="plugins/docsify-sigma.js"></script>`
-2. Install using JSDELIVER CDN: `<script src="https://cdn.jsdelivr.net/gh/julienbusset/docsify-sigma@v1.0.0/docsify-sigma.js"></script>`
+1. Copy docsify-sigma.js in the plugin folder, then add this script line in your index.html:
+```html
+<script src="plugins/docsify-sigma.js"></script>
+```
+2. Install using JSDELIVER CDN by adding this script line in your index.html:
+```html
+<script src="https://cdn.jsdelivr.net/gh/julienbusset/docsify-sigma@v1.0.0/docsify-sigma.js"></script>
+```
 
 Then put this line in your md file:
 ```html
