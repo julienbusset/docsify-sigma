@@ -29,7 +29,8 @@ In this version of the plugin, only the graphs with this JSON structure are pars
 ## How to use
 
 ### Quick start
-1. Install and activate the plugin in your Docsify project
+**1. Install and activate the plugin in your Docsify project**
+
 Install the plugin in your Docsify project by following the instructions in the [Docsify documentation](https://docsify.js.org/#/quickstart). You have two possibilities:
 - Copy docsify-sigma.js in the plugin folder, then add this script line in your index.html:
 ```html
@@ -51,7 +52,8 @@ Then activate the plugin in the Docsify configuration:
       };
 ```
 
-2. Add a graph in a page
+**2. Add a graph in a page**
+
 Once the plugin is installed, put this line in your md file:
 ```html
 <div class="docsify-sigma" graph-data-url="path/to/graph.json"></div>
