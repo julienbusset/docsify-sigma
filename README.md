@@ -40,7 +40,17 @@ OR
 <script src="https://cdn.jsdelivr.net/gh/julienbusset/docsify-sigma@v1.0.0/docsify-sigma.js"></script>
 ```
 
-Then put this line in your md file:
+Then activate the plugin in the Docsify configuration:
+```html
+    <!-- Configuration -->
+    <script>
+      window.$docsify = {
+        […]
+        docsifySigma: true,
+      };
+```
+
+Once the plugin is installed, put this line in your md file:
 ```html
 <div class="docsify-sigma" graph-data-url="path/to/graph.json"></div>
 ```
