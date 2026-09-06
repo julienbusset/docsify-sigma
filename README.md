@@ -50,6 +50,8 @@ Then activate the plugin in the Docsify configuration:
       };
 ```
 
+
+
 Once the plugin is installed, put this line in your md file:
 ```html
 <div class="docsify-sigma" graph-data-url="path/to/graph.json"></div>
